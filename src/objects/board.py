@@ -55,6 +55,7 @@ class Board:
             self.__board_mas[where[0]][where[1]] = player_obj
             self.__board_mas[player_obj.x][player_obj.y] = Empty()
             player_obj.x, player_obj.y = where
+            player_obj.add_move()
 
         else:
             raise ValueError('Player can\'t do this move')

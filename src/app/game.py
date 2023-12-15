@@ -11,7 +11,7 @@ class Game:
         pygame.init()
 
         self.screen = pygame.display.set_mode((800, 400))
-        pygame.display.set_caption('38-and-8 gui 1.0.0')
+        pygame.display.set_caption('38-and-8 gui 1.2.0')
 
         self.play_mode = 'Main menu'
 
@@ -25,6 +25,9 @@ class Game:
             if self.play_mode == 'Main menu':
                 self.play_mode = self.main_menu.draw()
 
+            elif self.play_mode == 'Won':
+                self.play_mode = self.won_menu.draw(self.moves_count)
+
             elif self.play_mode == 'New game':
                 self.play_menu = menus.PlayMenu(self.screen)
                 self.play_mode = 'Playing'
@@ -32,8 +35,9 @@ class Game:
             elif self.play_mode == 'Playing':
                 self.play_mode = self.play_menu.draw()
 
-            elif self.play_mode == 'Won':
-                self.play_mode = self.won_menu.draw()
+                if self.play_mode.startswith('Won'):
+                    self.moves_count = self.play_mode.split(' ')[1]
+                    self.play_mode = 'Won'
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

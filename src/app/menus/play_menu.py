@@ -90,6 +90,10 @@ class PlayMenu:
         points_left = options_font.render(f'{self.board.count_of_points()} points left', True, (240, 240, 245))
         self.screen.blit(points_left, (616, 56))
 
+        # Count of player moves
+        player_moves = options_font.render(f'{self.player.moves_count} moves', True, (240, 240, 245))
+        self.screen.blit(player_moves, (665, 96))
+
         # Drawing objects
         for coordinate, image in self.map_objects.items():
             self.screen.blit(image, coordinates[coordinate])
@@ -101,6 +105,6 @@ class PlayMenu:
 
         # If user won
         if self.board.is_win():
-            return 'Won'
+            return f'Won {self.player.moves_count}'
 
         return 'Playing'

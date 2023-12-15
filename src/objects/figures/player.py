@@ -11,6 +11,11 @@ class Player(Figure):
     img = '•'
     __points_collected = 0
     __obstacles_broken = 0
+    __moves_count = 0
+
+    @property
+    def moves_count(self):
+        return self.__moves_count
 
     @property
     def obstacles_broken(self):
@@ -25,6 +30,9 @@ class Player(Figure):
 
     def add_broken_obstacle(self):
         self.__obstacles_broken += 1
+
+    def add_move(self):
+        self.__moves_count += 1
 
     def get_moves(self, board):
         """Get player moves"""
