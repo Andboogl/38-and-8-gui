@@ -3,6 +3,7 @@
 
 from .figures import Empty
 from .figures import Point
+from .figures import Obstacle
 
 
 class Board:
@@ -31,9 +32,26 @@ class Board:
 
         return True
 
+    def count_of_points(self):
+        """Staple the number of points to the board"""
+        points = 0
+
+        for row in self.__board_mas:
+            for field in row:
+                if isinstance(field, Point):
+                    points += 1
+
+        return points
+
     def move_player(self, player_obj, where):
         """Move player"""
         if where in player_obj.get_moves(self):
+            if isinstance(self.__board_mas[where[0]][where[1]], Point):
+                player_obj.add_collected_point()
+
+            if isinstance(self.__board_mas[where[0]][where[1]], Obstacle):
+                player_obj.add_broken_obstacle()
+
             self.__board_mas[where[0]][where[1]] = player_obj
             self.__board_mas[player_obj.x][player_obj.y] = Empty()
             player_obj.x, player_obj.y = where

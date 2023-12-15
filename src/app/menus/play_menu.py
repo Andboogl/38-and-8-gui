@@ -38,9 +38,11 @@ class PlayMenu:
         obstacle10 = objects.Obstacle(*coor[15])
 
         self.board.put_figures(
-            point, point2, point3, point4, point5,
+            point, point2, point3, point4, point5, point6,
+            point7, point8, point9, point10,
             obstacle1, obstacle2, obstacle3, obstacle4,
-            obstacle5, obstacle6, obstacle7, obstacle8, obstacle9, obstacle10, self.player)
+            obstacle5, obstacle6, obstacle7, obstacle8,
+            obstacle9, obstacle10, self.player)
 
         self.map_objects = {
             f'{point.x}:{point.y}': pygame.transform.scale(pygame.image.load('images/point.png'), (24, 24)),
@@ -48,6 +50,11 @@ class PlayMenu:
             f'{point3.x}:{point3.y}': pygame.transform.scale(pygame.image.load('images/point.png'), (24, 24)),
             f'{point4.x}:{point4.y}': pygame.transform.scale(pygame.image.load('images/point.png'), (24, 24)),
             f'{point5.x}:{point5.y}': pygame.transform.scale(pygame.image.load('images/point.png'), (24, 24)),
+            f'{point6.x}:{point6.y}': pygame.transform.scale(pygame.image.load('images/point.png'), (24, 24)),
+            f'{point7.x}:{point7.y}': pygame.transform.scale(pygame.image.load('images/point.png'), (24, 24)),
+            f'{point8.x}:{point8.y}': pygame.transform.scale(pygame.image.load('images/point.png'), (24, 24)),
+            f'{point9.x}:{point9.y}': pygame.transform.scale(pygame.image.load('images/point.png'), (24, 24)),
+            f'{point10.x}:{point10.y}': pygame.transform.scale(pygame.image.load('images/point.png'), (24, 24)),
             f'{obstacle1.x}:{obstacle1.y}': pygame.transform.scale(pygame.image.load('images/obstacle.png'), (24, 24)),
             f'{obstacle2.x}:{obstacle2.y}': pygame.transform.scale(pygame.image.load('images/obstacle.png'), (24, 24)),
             f'{obstacle3.x}:{obstacle3.y}': pygame.transform.scale(pygame.image.load('images/obstacle.png'), (24, 24)),
@@ -64,13 +71,24 @@ class PlayMenu:
     def draw(self):
         """Draw play menu on the screen"""
         self.screen.fill((0, 0, 0))
-        back_font = pygame.font.Font('fonts/Roboto-Bold.ttf', 30)
-        back_text = back_font.render('Back', True, (240, 240, 245))
-        back_text_area = back_text.get_rect(topleft=(14, 8))
-        self.screen.blit(back_text, (14, 8))
 
         map_image = pygame.image.load('images/map.png')
         self.screen.blit(map_image, (0, 0))
+
+        options_font = pygame.font.Font('fonts/Roboto-Bold.ttf', 30)
+
+        # Back
+        back_text = options_font.render('Back', True, (240, 240, 245))
+        back_text_area = back_text.get_rect(topleft=(14, 8))
+        self.screen.blit(back_text, (14, 8))
+
+        # Points collected
+        points_collected = options_font.render(f'{self.player.points_collected}/10', True, (240, 240, 245))
+        self.screen.blit(points_collected, (700, 8))
+
+        # Points left
+        points_left = options_font.render(f'{self.board.count_of_points()} points left', True, (240, 240, 245))
+        self.screen.blit(points_left, (616, 56))
 
         # Drawing objects
         for coordinate, image in self.map_objects.items():
