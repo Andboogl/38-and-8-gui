@@ -11,7 +11,7 @@ class Game:
         pygame.init()
 
         self.screen = pygame.display.set_mode((800, 400))
-        pygame.display.set_caption('38-and-8 gui 1.0.0-BETA')
+        pygame.display.set_caption('38-and-8 gui 1.0.0')
 
         self.play_mode = 'Main menu'
 
