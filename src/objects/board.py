@@ -1,11 +1,8 @@
 """Board"""
 
 
-from figures import Empty
-from figures import Player
-from figures import Obstacle
-from figures import Point
-from coordinate_generation import generate
+from .figures import Empty
+from .figures import Point
 
 
 class Board:
@@ -19,6 +16,11 @@ class Board:
         # For player correct moves
         self.width = width
         self.height = height
+
+    def put_figures(self, *args):
+        """Put a lot of figures to the board"""
+        for figure in args:
+            self.put_figure(figure)
 
     def is_win(self):
         """Return True if there is no points on board. Else False"""
