@@ -33,7 +33,7 @@ class Board:
         return True
 
     def count_of_points(self):
-        """Staple the number of points to the board"""
+        """Staple the number of points on the board"""
         points = 0
 
         for row in self.__board_mas:
@@ -42,6 +42,17 @@ class Board:
                     points += 1
 
         return points
+
+    def count_of_obstacles(self):
+        """Staple the number of obstacles on the board"""
+        obstacles = 0
+
+        for row in self.__board_mas:
+            for field in row:
+                if isinstance(field, Obstacle):
+                    obstacles += 1
+
+        return obstacles
 
     def move_player(self, player_obj, where):
         """Move player"""
