@@ -12,7 +12,7 @@ class Game:
         pygame.init()
 
         self.screen = pygame.display.set_mode((800, 400))
-        pygame.display.set_caption('38-and-8 gui 1.5.0')
+        pygame.display.set_caption('38-and-8 gui 1.6.0')
 
         self.play_mode = 'Main menu'
         self.records = Records()
@@ -21,11 +21,19 @@ class Game:
         self.main_menu = menus.MainMenu(self.screen)
         self.won_menu = menus.WonMenu(self.screen)
 
+        # Sounds
+        self.main_menu_sound = pygame.mixer.Sound('sounds/start.mp3')
+        self.won_sound = pygame.mixer.Sound('sounds/won.mp3')
+
     def main_loop(self):
         """Game main loop"""
         while True:
             if self.play_mode == 'Main menu':
+                self.main_menu_sound.play()
                 self.play_mode = self.main_menu.draw()
+
+                if self.play_mode != 'Main menu':
+                    self.main_menu_sound.stop()
 
             elif self.play_mode == 'Won':
                 self.play_mode = self.won_menu.draw(
@@ -46,6 +54,7 @@ class Game:
                     seconds_count = self.play_mode.split(' ')[2]
                     self.records.load_record(moves_count, seconds_count)
                     self.play_mode = 'Won'
+                    self.won_sound.play()
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -97,17 +106,18 @@ class Game:
                                 self.play_menu.map_objects.pop(f'{self.play_menu.player.x}:{self.play_menu.player.y}')
                                 self.play_menu.board.move_player(self.play_menu.player,
                                                                  [self.play_menu.player.x + 1, self.play_menu.player.y])
-                            move_done = True
+                                move_done = True
 
                         if move_done:
                             # Playing sound
-                            if self.play_menu.board.count_of_obstacles() < obstacles:
+                            if self.play_menu.board.count_of_obstacles() == obstacles - 1:
                                 pygame.mixer.Sound('sounds/obstacle_destroy.mp3').play()
 
-                            elif self.play_menu.board.count_of_points() < points:
+                            elif self.play_menu.board.count_of_points() == points - 1:
                                 pygame.mixer.Sound('sounds/point.mp3').play()
 
                             else:
                                 pygame.mixer.Sound('sounds/move.mp3').play()
+
 
             pygame.display.update()

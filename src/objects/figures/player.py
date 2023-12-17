@@ -70,6 +70,5 @@ class Player(Figure):
             elif isinstance(board_mas[self.x][self.y - 1], Obstacle):
                 if self.__obstacles_broken < 3:
                     moves.append([self.x, self.y - 1])
-                
 
         return moves

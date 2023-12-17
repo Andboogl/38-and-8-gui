@@ -25,13 +25,13 @@ class Records:
 
         if os.path.exists(file_path):
             with open(file_path) as file:
-                data: dict = json.load(file)
+                data = json.load(file)
 
-            record = min(map(int, data.keys()))
-            return data[str(record)]
+            if data:
+                record = min(map(int, data.keys()))
+                return data[str(record)]
 
-        else:
-            return None
+        return None
 
     def load_record(self, moves_count, seconds):
         """Load new record"""
@@ -47,14 +47,6 @@ class Records:
 
         # Writing
         with open(file_path, 'x' if not os.path.exists(file_path) else 'w') as file:
-            data[record_id] = {'moves': moves_count, 'seconds': seconds}
-            json.dump(data, file, indent=4)
-
-
-def test():
-    records = Records()
-    print(records.best_record())
-    # records.load_record(6, 80)
-
-if __name__ == '__main__':
-    test()
+            if not data.get(record_id, None):
+                data[record_id] = {'moves': moves_count, 'seconds': seconds}
+                json.dump(data, file, indent=4)
