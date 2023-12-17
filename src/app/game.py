@@ -3,6 +3,7 @@
 
 import pygame
 from . import menus
+from .utils import Records
 
 
 class Game:
@@ -11,9 +12,10 @@ class Game:
         pygame.init()
 
         self.screen = pygame.display.set_mode((800, 400))
-        pygame.display.set_caption('38-and-8 gui 1.3.0')
+        pygame.display.set_caption('38-and-8 gui 1.4.0')
 
         self.play_mode = 'Main menu'
+        self.records = Records()
 
         # Menus
         self.main_menu = menus.MainMenu(self.screen)
@@ -26,7 +28,10 @@ class Game:
                 self.play_mode = self.main_menu.draw()
 
             elif self.play_mode == 'Won':
-                self.play_mode = self.won_menu.draw(moves_count, seconds_count)
+                self.play_mode = self.won_menu.draw(
+                    moves_count, seconds_count,
+                    self.records.best_record()['moves'],
+                    self.records.best_record()['seconds'])
 
             elif self.play_mode == 'New game':
                 self.play_menu = menus.PlayMenu(self.screen)
@@ -39,6 +44,7 @@ class Game:
                 if self.play_mode.startswith('Won'):
                     moves_count = self.play_mode.split(' ')[1]
                     seconds_count = self.play_mode.split(' ')[2]
+                    self.records.load_record(moves_count, seconds_count)
                     self.play_mode = 'Won'
 
             for event in pygame.event.get():
