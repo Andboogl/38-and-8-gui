@@ -4,13 +4,12 @@
 import pygame
 import objects
 from .map_coordinates import coordinates
+from ..utils import Timer, BaseMenu
 
 
-class PlayMenu:
+class PlayMenu(BaseMenu):
     """Play menu"""
-    def __init__(self, screen):
-        self.screen = screen
-
+    def init(self):
         # Creating board and position
         self.board = objects.Board(8, 8)
 
@@ -68,6 +67,10 @@ class PlayMenu:
             f'{self.player.x}:{self.player.y}': pygame.transform.scale(pygame.image.load('images/player.png'), (24, 24))
         }
 
+        Timer
+        self.timer = Timer()
+        self.timer.set_start_to_current()
+
     def draw(self):
         """Draw play menu on the screen"""
         self.screen.fill((0, 0, 0))
@@ -75,24 +78,28 @@ class PlayMenu:
         map_image = pygame.image.load('images/map.png')
         self.screen.blit(map_image, (0, 0))
 
-        options_font = pygame.font.Font('fonts/Roboto-Bold.ttf', 30)
+        # options_font = pygame.font.Font('fonts/Roboto-Bold.ttf', 30)
 
         # Back
-        back_text = options_font.render('Back', True, (240, 240, 245))
+        back_text = self.option_font.render('Back', True, (240, 240, 245))
         back_text_area = back_text.get_rect(topleft=(14, 8))
         self.screen.blit(back_text, (14, 8))
 
         # Points collected
-        points_collected = options_font.render(f'{self.player.points_collected}/10', True, (240, 240, 245))
-        self.screen.blit(points_collected, (700, 8))
+        points_collected = self.option_font.render(f'{self.player.points_collected}/10', True, (240, 240, 245))
+        self.screen.blit(points_collected, (690, 8))
 
         # Points left
-        points_left = options_font.render(f'{self.board.count_of_points()} points left', True, (240, 240, 245))
-        self.screen.blit(points_left, (616, 56))
+        points_left = self.option_font.render(f'{self.board.count_of_points()} points left', True, (240, 240, 245))
+        self.screen.blit(points_left, (565, 56))
 
         # Count of player moves
-        player_moves = options_font.render(f'{self.player.moves_count} moves', True, (240, 240, 245))
-        self.screen.blit(player_moves, (665, 96))
+        player_moves = self.option_font.render(f'{self.player.moves_count} moves', True, (240, 240, 245))
+        self.screen.blit(player_moves, (615, 96))
+
+        # Playing time in seconds
+        play_time = self.option_font.render(f'{int(self.timer.end)} seconds', True, (240, 240, 245))
+        self.screen.blit(play_time, (600, 145))
 
         # Drawing objects
         for coordinate, image in self.map_objects.items():
@@ -105,6 +112,6 @@ class PlayMenu:
 
         # If user won
         if self.board.is_win():
-            return f'Won {self.player.moves_count}'
+            return f'Won {self.player.moves_count} {int(self.timer.end)}'
 
         return 'Playing'

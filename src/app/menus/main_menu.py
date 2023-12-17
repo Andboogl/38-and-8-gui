@@ -2,10 +2,10 @@
 
 
 import pygame
-from .base import Menu
+from ..utils import BaseMenu
 
 
-class MainMenu(Menu):
+class MainMenu(BaseMenu):
     """Main menu"""
     def draw(self):
         """Draw main menu"""
