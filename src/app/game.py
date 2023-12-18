@@ -14,6 +14,10 @@ class Game:
         self.screen = pygame.display.set_mode((800, 400))
         pygame.display.set_caption('38-and-8 gui 1.6.0')
 
+        # Application icon
+        icon = pygame.image.load('images/icon.png')
+        pygame.display.set_icon(icon)
+
         self.play_mode = 'Main menu'
         self.records = Records()
 
